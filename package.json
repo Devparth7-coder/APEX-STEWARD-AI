@@ -1,0 +1,14 @@
+{
+  "name": "apex-steward-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "APEX STEWARD AI — Production-Grade AI Motorsport Intelligence Platform",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "cd frontend && npm run dev",
+    "start": "cd frontend && npm run preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}
