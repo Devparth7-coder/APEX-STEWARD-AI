@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #07090e;
+    --bg-card: #0e131f;
+    --bg-card-hover: #141b2d;
+    --border-color: #1e293b;
+    --neon-cyan: #00f0ff;
+    --neon-red: #ff3366;
+    --neon-amber: #ffaa00;
+    --neon-green: #00ff88;
+    --neon-purple: #a855f7;
+  }
+
+  body {
+    background-color: #07090e;
+    color: #f1f5f9;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Race control grid background */
+.race-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.radar-sweep {
+  animation: radar 4s linear infinite;
+}
+
+@keyframes radar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pulse-glow-red {
+  box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+}
+
+.pulse-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.pulse-glow-green {
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 240, 255, 0.02) 50%,
+    rgba(0, 240, 255, 0.02)
+  );
+  background-size: 100% 4px;
+}

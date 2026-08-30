@@ -1,0 +1,27 @@
+[
+  {
+    "feedback_id": "AL-1788090593408",
+    "timestamp": "2026-08-30 11:49:53",
+    "incident_id": "inc_027",
+    "car_number": "44",
+    "ai_recommendation": "REVIEW REQUIRED \u2014 PROBABLE VIOLATION",
+    "steward_decision": "CONFIRMED",
+    "steward_penalty": "LAP_TIME_DELETED",
+    "reviewer_name": "Garry Connelly",
+    "steward_reason": "All 4 wheels clearly crossed white line at Turn 9 exit",
+    "agreement_with_ai": false,
+    "max_excursion_cm": 14.2,
+    "confidence_scores": {
+      "detection_confidence": 0.96,
+      "tracking_confidence": 0.94,
+      "boundary_confidence": 0.91,
+      "temporal_consistency": 0.97,
+      "geometry_confidence": 0.93,
+      "overall_confidence": 0.942,
+      "level": "HIGH"
+    },
+    "annotated_frames_count": 3,
+    "exportable_for_training": true,
+    "loss_weight": 2.0
+  }
+]
