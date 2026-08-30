@@ -10,25 +10,27 @@ import IncidentReviewModal from './components/IncidentReviewModal';
 import { 
   fetchCurrentRace, 
   fetchIncidents, 
-  fetchLiveMetrics 
+  fetchLiveMetrics,
+  INITIAL_INCIDENTS,
+  INITIAL_SESSION
 } from './services/api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('race-control');
   const [currentRole, setCurrentRole] = useState('Steward (G. Connelly)');
-  const [session, setSession] = useState(null);
-  const [incidents, setIncidents] = useState([]);
-  const [selectedIncident, setSelectedIncident] = useState(null);
+  const [session, setSession] = useState(INITIAL_SESSION);
+  const [incidents, setIncidents] = useState(INITIAL_INCIDENTS);
+  const [selectedIncident, setSelectedIncident] = useState(INITIAL_INCIDENTS.find(i => i.incident_code === 'INC-027') || INITIAL_INCIDENTS[0]);
   const [isStewardModalOpen, setIsStewardModalOpen] = useState(false);
   const [liveMetrics, setLiveMetrics] = useState({
     fps: 29.4,
     processing_latency_ms: 38.2,
     active_tracks_count: 18,
-    incidents_detected_count: 5,
+    incidents_detected_count: INITIAL_INCIDENTS.length,
     system_status: 'OPTIMAL / ACTIVE MONITORING'
   });
 
-  // Load initial data
+  // Load live data from API or sync state
   useEffect(() => {
     loadInitialData();
 
@@ -36,10 +38,8 @@ export default function App() {
     const interval = setInterval(async () => {
       try {
         const m = await fetchLiveMetrics();
-        setLiveMetrics(m);
-      } catch (e) {
-        // quiet error
-      }
+        if (m) setLiveMetrics(m);
+      } catch (e) {}
     }, 4000);
 
     return () => clearInterval(interval);
@@ -52,15 +52,15 @@ export default function App() {
         fetchIncidents(),
         fetchLiveMetrics()
       ]);
-      setSession(raceData);
-      setIncidents(incsData);
-      setLiveMetrics(metricsData);
-      
-      // Select the primary incident INC-027 by default
-      if (incsData && incsData.length > 0) {
-        const primary = incsData.find(i => i.incident_code === 'INC-027') || incsData[0];
-        setSelectedIncident(primary);
+      if (raceData) setSession(raceData);
+      if (Array.isArray(incsData) && incsData.length > 0) {
+        setIncidents(incsData);
+        if (!selectedIncident) {
+          const primary = incsData.find(i => i.incident_code === 'INC-027') || incsData[0];
+          setSelectedIncident(primary);
+        }
       }
+      if (metricsData) setLiveMetrics(metricsData);
     } catch (err) {
       console.error("Failed loading initial data:", err);
     }
@@ -78,7 +78,6 @@ export default function App() {
   const handleDecisionSubmitted = (updatedIncident) => {
     setIncidents(prev => prev.map(i => i.id === updatedIncident.id ? updatedIncident : i));
     setSelectedIncident(updatedIncident);
-    // Refresh metrics
     fetchLiveMetrics().then(m => setLiveMetrics(m));
   };
 
